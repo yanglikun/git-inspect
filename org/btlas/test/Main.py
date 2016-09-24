@@ -21,10 +21,14 @@ commit=current.commit
 print(commit,commit.message)
 print(commit.tree)
 
+
 print("===tree====")
 for item in commit.tree.traverse():
-    print(item)
+    print(item,":",item.name)
+    print(item.data_stream.read())
 
 print("=====index===")
 for item in repo.index.entries:
     print(item)
+
+print(current,commit,commit.type,commit.tree)
