@@ -23,41 +23,31 @@
             border: 1px solid;
             border-collapse: collapse;
         }
-
     </style>
 </head>
 <body>
 <input type="text" id="workingDir" value="D:\worksapce\git\git-test"><br/>
-<a href="javascript:void(0)" id="commitBtn">获取commit</a>&nbsp;&nbsp;
 <a href="javascript:void(0)" id="indexBtn">获取index</a>&nbsp;&nbsp;
 <a href="javascript:void(0)" id="categoryObjectsBtn">获取objects</a>&nbsp;&nbsp;
-
+<a href="javascript:void(0)" id="allBtn">获取全部</a>&nbsp;&nbsp;
 
 <div id="indexDiv">
 
 </div>
-<hr>
-<div id="commitDiv">
 
-</div>
-<hr>
-<div id="treeDiv">
-
-</div>
-<hr>
-<div id="blobDiv">
+<div id="dbDiv">
 
 </div>
 
 <script id="index" type="text/html">
-    <table class="commTable">
+    <table class="commTable" style="background-color: rgb(251,200,50)">
          <tr><td>name</td><td>{{ name }}</td></tr>
          <tr><td>hash</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
     </table>
 </script>
 
 <script id="commit" type="text/html">
-    <table class="commTable">
+    <table class="commTable"  style="background-color: rgb(171,255,187)">
         <tr style="font-weight: bold "><td>commit</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
         <tr><td>tree</td><td>{{ tree | shortHash }}</td></tr>
         <tr><td>author</td><td>{{ author.name }},{{ author.email }}</td></tr>
@@ -70,8 +60,8 @@
 </script>
 
 
-<script id="tree" type="text/html">
-    <table class="commTable">
+<script id="tree" type="text/html"  style="background-color: rgb(209,205,255)">
+    <table class="commTable" style="background-color: rgb(209,205,255)">
         <tr style="font-weight: bold "><td colspan="2">tree {{ name }}</td><td  title="{{ hash }}">{{ hash | shortHash }}</td></tr>
         {{ each blobs }}
         <tr><td>blob</td><td  title="{{ $value.hash }}">{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
@@ -83,7 +73,7 @@
 </script>
 
 <script id="blob" type="text/html">
-    <table class="commTable">
+    <table class="commTable" style="background-color: rgb(255,192,189)">
         <tr><td>blob</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
         <tr><td colspan="2">{{ content }}</td></tr>
     </table>
@@ -91,6 +81,11 @@
 
 
 <script>
+    $("#allBtn").click(function(){
+        $("#indexBtn").trigger('click')
+        $("#categoryObjectsBtn").trigger('click')
+    })
+
     $("#indexBtn").click(function () {
         var $indexDiv=$("#indexDiv")
         $indexDiv.html('正在加载...')
@@ -110,34 +105,28 @@
         }, 'json');
     })
 
+    var $dbDiv=$("#dbDiv")
     $("#categoryObjectsBtn").click(function () {
-        var $commitDiv = $("#commitDiv")
-        var $treeDiv = $("#treeDiv")
-        var $blobDiv = $("#blobDiv")
-        $commitDiv.html('正在加载。。。')
-        $treeDiv.html('正在加载。。。')
-        $blobDiv.html('正在加载。。。')
+        $dbDiv.html('正在加载。。。')
         $.post("/categoryObjects", {workingDir: $("#workingDir").val()}, function (data) {
-            $commitDiv.html('')
-            $treeDiv.html('')
-            $blobDiv.html('')
+            $dbDiv.html('')
             $.each(data.commits, function (index, ele) {
                 var tmp = template('commit', ele);
                 var $tmp = $(tmp)
                 $tmp.draggable();
-                $commitDiv.append($tmp)
+                $dbDiv.append($tmp)
             })
             $.each(data.trees, function (index, ele) {
                 var tmp = template('tree', ele);
                 var $tmp = $(tmp)
                 $tmp.draggable();
-                $treeDiv.append($tmp)
+                $dbDiv.append($tmp)
             })
             $.each(data.blobs, function (index, ele) {
                 var tmp = template('blob', ele);
                 var $tmp = $(tmp)
                 $tmp.draggable();
-                $blobDiv.append($tmp)
+                $dbDiv.append($tmp)
             })
         }, 'json');
     })
