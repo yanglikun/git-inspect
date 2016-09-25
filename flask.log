@@ -1,0 +1,28 @@
+Exception on /getAll [POST]
+Traceback (most recent call last):
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1642, in full_dispatch_request
+    response = self.make_response(rv)
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1746, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "D:\Program Files\python\lib\site-packages\werkzeug\wrappers.py", line 847, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "D:\Program Files\python\lib\site-packages\werkzeug\wrappers.py", line 57, in _run_wsgi_app
+    return _run_wsgi_app(*args)
+  File "D:\Program Files\python\lib\site-packages\werkzeug\test.py", line 871, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'list' object is not callable
+Exception on /getAll [POST]
+Traceback (most recent call last):
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1642, in full_dispatch_request
+    response = self.make_response(rv)
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1746, in make_response
+    rv = self.response_class.force_type(rv, request.environ)
+  File "D:\Program Files\python\lib\site-packages\werkzeug\wrappers.py", line 847, in force_type
+    response = BaseResponse(*_run_wsgi_app(response, environ))
+  File "D:\Program Files\python\lib\site-packages\werkzeug\test.py", line 871, in run_wsgi_app
+    app_rv = app(environ, start_response)
+TypeError: 'list' object is not callable

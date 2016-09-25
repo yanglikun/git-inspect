@@ -3,17 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <title>Git对象查看</title>
-    <script src="/static/jquery-1.6.4-min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.js"></script>
+    <script style="text/javascript" src="/static/template.js"></script>
+    <script>
+        $(function () {
+            $("#draggable").draggable();
+        });
+    </script>
+
 </head>
 <body>
-<input type="text" id="workingDir" value="D:\worksapce\git\git-test"><input type="button" value="获取数据" id="getData"><br/>
+<input type="text" id="workingDir" value="D:\worksapce\git\git-test"><br/>
+<a href="javascript:void(0)" id="commitBtn">获取commit</a>&nbsp;&nbsp;
+<a href="javascript:void(0)" id="indexBtn">获取index</a>&nbsp;&nbsp;
+<a href="javascript:void(0)" id="categoryObjectsBtn">获取objects</a>&nbsp;&nbsp;
 
-<div id="data">
+
+<div id="indexDiv">
 
 </div>
+<div id="commitDiv">
+
+</div>
+<div id="treeDiv">
+
+</div>
+<div id="blobDiv">
+
+</div>
+
+<script id="index" type="text/html">
+    <table class="commTable">
+         <tr><td>name</td><td>{{ name }}</td></tr>
+         <tr><td>hash</td><td>{{ hash | shortHash }}</td></tr>
+    </table>
+</script>
+
+<script id="commit" type="text/html">
+    <table class="commTable">
+        <tr style="font-weight: bold "><td>commit</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+        <tr><td>tree</td><td>{{ tree | shortHash }}</td></tr>
+        <tr><td>author</td><td>{{ author.name }},{{ author.email }}</td></tr>
+        <tr><td>committer</td><td>{{ committer.name }},{{ committer.email }}</td></tr>
+        <tr><td>msg</td><td>{{ msg }}</td></tr>
+        {{ each parents}}
+             <tr><td>parent</td><td>{{ $value | shortHash }}</td></tr>
+        {{/each}}
+    </table>
+</script>
+
+
+<script id="tree" type="text/html">
+    <table class="commTable">
+        <tr style="font-weight: bold "><td colspan="2">tree {{ name }}</td><td>{{ hash | shortHash }}</td></tr>
+        {{ each blobs }}
+        <tr><td>blob</td><td>{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
+        {{ /each }}
+        {{ each subTrees }}
+        <tr><td>tree</td><td>{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
+        {{ /each }}
+    </table>
+</script>
+
+<script id="blob" type="text/html">
+    <table class="commTable">
+        <tr><td>blob</td><td>{{ hash | shortHash }}</td></tr>
+        <tr><td colspan="2">{{ content }}</td></tr>
+    </table>
+</script>
+
+
 <script>
-    $("#getData").click(function () {
-        $.post("/getAllCommit", {workingDir: $("#workingDir").val()}, function (data) {
+    $("#indexBtn").click(function () {
+        var $indexDiv=$("#indexDiv")
+        $indexDiv.html('正在加载...')
+        $.post("/index", {workingDir: $("#workingDir").val()}, function (data) {
+            if(!data){
+                $indexDiv.html('暂存区没有内容')
+                return
+            }
+            for(ele in data){
+                var newIndex=template('index',data);
+                $indexDiv.append(newIndex)
+            }
+
+        }, 'json');
+    })
+
+    $("#commitBtn").click(function () {
+        $.post("/allCommit", {workingDir: $("#workingDir").val()}, function (data) {
+            $("#data").html(JSON.stringify(data))
+        }, 'json');
+    })
+
+    $("#categoryObjectsBtn").click(function () {
+        $("#data").html('开始请求')
+        $.post("/categoryObjects", {workingDir: $("#workingDir").val()}, function (data) {
             $("#data").html(JSON.stringify(data))
         }, 'json');
     })

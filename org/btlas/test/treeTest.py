@@ -1,26 +1,31 @@
 __author__ = 'yanglikun'
 from git import Repo
 from gitdb.util import bin_to_hex
+from gitdb.util import hex_to_bin
 import os
 from git.objects.commit import Commit
 from git.objects.blob import Blob
 from git.objects.tree import Tree
 
-repo = Repo(r'D:\worksapce\git\git-test')
-#
+repo = Repo(r'D:\worksapce\jd_train')
+
 # for item in repo.odb.sha_iter():
 #     info = repo.odb.info(item);
 #     shaBin = info.binsha
-#     sharStr=info.hexsha.decode('ascii')
+#     shaStr = info.hexsha.decode('ascii')
 #     type = info.type
 #     typeStr = type.decode('ascii')
-#     if typeStr == 'tree':
-#         tree = Tree(repo, shaBin)
-#         print(info.binsha,":",sharStr)
+#     if typeStr == 'commit':
+#         # tree = Tree(repo, shaBin)
+#         print(info.binsha, ":", shaStr)
 
 
-tree=Tree(repo, b'Imd(\xb9\xcf\x92\x98\x1d\xc9IR\x11\xe6\xe1\x12\x0f\xb6\xf2\xba')
-print(tree.hexsha)
+git=repo.git
+print(git.execute('git cat-file -t ba9a146e9da6f4aa1687f1a8a78f25e0cb748dff'))
+
+tree = Tree(repo, hex_to_bin('ba9a146e9da6f4aa1687f1a8a78f25e0cb748dff'))
+for shaBin,model,name in tree._cache:
+    print(bin_to_hex(shaBin),name)
 
 
 # print("--------------")
@@ -32,9 +37,9 @@ print(tree.hexsha)
 # print(comm.committer.name, comm.committer.email)
 # print(comm.author.name, comm.author.email)
 #
-blob = Blob(repo, b'\xedH\xeb\xa2\x92w\xb0w\xf592\x81\xe5_\xe8\xf77\x87c\x8c')
-print(blob.data_stream.read().decode('utf-8'))
-print(blob.hexsha)
+# blob = Blob(repo, b'\xedH\xeb\xa2\x92w\xb0w\xf592\x81\xe5_\xe8\xf77\x87c\x8c')
+# print(blob.data_stream.read().decode('utf-8'))
+# print(blob.hexsha)
 
 
 # commit=repo.active_branch.commit

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script style="text/javascript" src="template.js"></script>
+    <script>
+        template.helper('shortHash', function (hash) {
+            return hash?hash.substr(0,4):"";
+        });
+    </script>
+    <style>
+        .commTable{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table.commTable tr,table.commTable td{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+
+    </style>
+    <title></title>
+</head>
+<body>
+
+<style>
+
+</style>
+
+
+<script id="index" type="text/html">
+    <table class="commTable">
+         <tr><td>name</td><td>{{ name }}</td></tr>
+         <tr><td>hash</td><td>{{ hash | shortHash }}</td></tr>
+    </table>
+</script>
+
+<script id="commit" type="text/html">
+    <table class="commTable">
+        <tr style="font-weight: bold "><td>commit</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+        <tr><td>tree</td><td>{{ tree | shortHash }}</td></tr>
+        <tr><td>author</td><td>{{ author.name }},{{ author.email }}</td></tr>
+        <tr><td>committer</td><td>{{ committer.name }},{{ committer.email }}</td></tr>
+        <tr><td>msg</td><td>{{ msg }}</td></tr>
+        {{ each parents}}
+             <tr><td>parent</td><td>{{ $value | shortHash }}</td></tr>
+        {{/each}}
+    </table>
+</script>
+
+
+<script id="tree" type="text/html">
+    <table class="commTable">
+        <tr style="font-weight: bold "><td colspan="2">tree {{ name }}</td><td>{{ hash | shortHash }}</td></tr>
+        {{ each blobs }}
+        <tr><td>blob</td><td>{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
+        {{ /each }}
+        {{ each subTrees }}
+        <tr><td>tree</td><td>{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
+        {{ /each }}
+    </table>
+</script>
+
+<script id="blob" type="text/html">
+    <table class="commTable">
+        <tr><td>blob</td><td>{{ hash | shortHash }}</td></tr>
+        <tr><td colspan="2">{{ content }}</td></tr>
+    </table>
+</script>
+
+<script>
+    commitData = {
+        "msg": "aadir\n",
+        "author": {
+            "email": "yanglikun@jd.com",
+            "name": "yanglikkun"
+        },
+        "tree": "577db9c2578c64584e8072c9eb232ae6c15ba9fc",
+        "parents": [
+            "b45eb691a38ebe6b5fee4df8a5f4440aa319903c"
+        ],
+        "committer": {
+            "email": "yanglikun@jd.com",
+            "name": "yanglikkun"
+        },
+        "hash": "959f299f53347b0aa2fc1ae176c5deb273962536",
+        "type": "commit"
+    }
+    var commitHtml=template('commit', commitData)
+    $("body").append(commitHtml)
+
+    treeData={
+      "name": "/",
+      "type": "tree",
+      "blobs": [
+        {
+          "name": "a",
+          "content": "",
+          "hash": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+          "type": "blob"
+        }
+      ],
+      "hash": "2f24a4bc01bc0e84688441fe9b227a05e656f6fa",
+      "subTrees": [
+        {
+          "name": "aadir",
+          "type": "tree",
+          "blobs": [],
+          "hash": "496d6428b9cf92981dc9495211e6e1120fb6f2ba",
+          "subTrees": []
+        }
+      ]
+    }
+    var treeHtml=template('tree', treeData)
+    $("body").append(treeHtml)
+
+
+    blobData={
+      "name": "",
+      "content": ".idea\n*.iml\ntarget\n*.class",
+      "hash": "67ebf5af1a0abafaeb41ccef65e95571051dfb92",
+      "type": "blob"
+    }
+    var blobHtml=template('blob', blobData)
+    $("body").append(blobHtml)
+
+    var indexData={"name": "a", "hash": "f6ddaa39277bb15b7d4ba0b1e3880667c45fb91a"}
+    var indexHtml=template('index', indexData)
+    $("body").append(indexHtml)
+
+</script>
+</body>
+</html>

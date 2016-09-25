@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git对象查看</title>
+    <script src="/jquery.min.js"></script>
+    <script src="/jquery-ui.js"></script>
+    <script style="text/javascript" src="/template.js"></script>
+    <script>
+        template.helper('shortHash', function (hash) {
+            return hash?hash.substr(0,4):"";
+        });
+    </script>
+    <style>
+        .commTable{
+            border: 1px solid;
+            border-collapse: collapse;
+            display: inline-table;
+            margin: 5px;
+        }
+
+        table.commTable tr,table.commTable td{
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+
+    </style>
+</head>
+<body>
+<input type="text" id="workingDir" value="D:\worksapce\git\git-test"><br/>
+<a href="javascript:void(0)" id="commitBtn">获取commit</a>&nbsp;&nbsp;
+<a href="javascript:void(0)" id="indexBtn">获取index</a>&nbsp;&nbsp;
+<a href="javascript:void(0)" id="categoryObjectsBtn">获取objects</a>&nbsp;&nbsp;
+
+
+<div id="indexDiv">
+
+</div>
+<hr>
+<div id="commitDiv">
+
+</div>
+<hr>
+<div id="treeDiv">
+
+</div>
+<hr>
+<div id="blobDiv">
+
+</div>
+
+<script id="index" type="text/html">
+    <table class="commTable">
+         <tr><td>name</td><td>{{ name }}</td></tr>
+         <tr><td>hash</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+    </table>
+</script>
+
+<script id="commit" type="text/html">
+    <table class="commTable">
+        <tr style="font-weight: bold "><td>commit</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+        <tr><td>tree</td><td>{{ tree | shortHash }}</td></tr>
+        <tr><td>author</td><td>{{ author.name }},{{ author.email }}</td></tr>
+        <tr><td>committer</td><td>{{ committer.name }},{{ committer.email }}</td></tr>
+        <tr><td>msg</td><td>{{ msg }}</td></tr>
+        {{ each parents}}
+             <tr><td>parent</td><td>{{ $value | shortHash }}</td></tr>
+        {{/each}}
+    </table>
+</script>
+
+
+<script id="tree" type="text/html">
+    <table class="commTable">
+        <tr style="font-weight: bold "><td colspan="2">tree {{ name }}</td><td  title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+        {{ each blobs }}
+        <tr><td>blob</td><td  title="{{ $value.hash }}">{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
+        {{ /each }}
+        {{ each subTrees }}
+        <tr><td>tree</td><td  title="{{ $value.hash }}">{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
+        {{ /each }}
+    </table>
+</script>
+
+<script id="blob" type="text/html">
+    <table class="commTable">
+        <tr><td>blob</td><td title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+        <tr><td colspan="2">{{ content }}</td></tr>
+    </table>
+</script>
+
+
+<script>
+    $("#indexBtn").click(function () {
+        var $indexDiv=$("#indexDiv")
+        $indexDiv.html('正在加载...')
+        $.post("/index", {workingDir: $("#workingDir").val()}, function (data) {
+             $indexDiv.html('')
+            if(!data){
+                $indexDiv.html('暂存区没有内容')
+                return
+            }
+            for(indexEle in data){
+                var newIndex=template('index',data[indexEle]);
+                var $newIndex=$(newIndex)
+                $newIndex.draggable();
+                $indexDiv.append($newIndex)
+            }
+
+        }, 'json');
+    })
+
+    $("#categoryObjectsBtn").click(function () {
+        var $commitDiv = $("#commitDiv")
+        var $treeDiv = $("#treeDiv")
+        var $blobDiv = $("#blobDiv")
+        $commitDiv.html('正在加载。。。')
+        $treeDiv.html('正在加载。。。')
+        $blobDiv.html('正在加载。。。')
+        $.post("/categoryObjects", {workingDir: $("#workingDir").val()}, function (data) {
+            $commitDiv.html('')
+            $treeDiv.html('')
+            $blobDiv.html('')
+            $.each(data.commits, function (index, ele) {
+                var tmp = template('commit', ele);
+                var $tmp = $(tmp)
+                $tmp.draggable();
+                $commitDiv.append($tmp)
+            })
+            $.each(data.trees, function (index, ele) {
+                var tmp = template('tree', ele);
+                var $tmp = $(tmp)
+                $tmp.draggable();
+                $treeDiv.append($tmp)
+            })
+            $.each(data.blobs, function (index, ele) {
+                var tmp = template('blob', ele);
+                var $tmp = $(tmp)
+                $tmp.draggable();
+                $blobDiv.append($tmp)
+            })
+        }, 'json');
+    })
+</script>
+</body>
+</html>

@@ -53,5 +53,14 @@ def getAllCommit(workingDir):
         myCommits.append(buildMyCommit(item))
     return myCommits;
 
+
 def getAllCommitJSON(workingDir):
-    return jsonpickle.encode(getAllCommit(workingDir),unpicklable=False)
+    return jsonpickle.encode(getAllCommit(workingDir), unpicklable=False)
+
+
+if __name__ == '__main__':
+    repo = Repo(r'D:\worksapce\git\git-test')
+    myCommits = []
+    for item in repo.iter_commits():
+        myCommits.append(buildMyCommit(item))
+        print(jsonpickle.encode(myCommits, unpicklable=False))

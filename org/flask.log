@@ -1,0 +1,86 @@
+Exception on / [GET]
+Traceback (most recent call last):
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Program Files\python\lib\site-packages\flask\_compat.py", line 33, in reraise
+    raise value
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/worksapce/else/python/git-inspect/org/Main.py", line 12, in hello_world
+    return render_template("index.html")
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 133, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 851, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 812, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 774, in _load_template
+    cache_key = self.loader.get_source(self, name)[1]
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 57, in get_source
+    return self._get_source_fast(environment, template)
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 85, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+Exception on / [GET]
+Traceback (most recent call last):
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Program Files\python\lib\site-packages\flask\_compat.py", line 33, in reraise
+    raise value
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/worksapce/else/python/git-inspect/org/Main.py", line 12, in hello_world
+    return render_template("index.html")
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 133, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 851, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 812, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 774, in _load_template
+    cache_key = self.loader.get_source(self, name)[1]
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 57, in get_source
+    return self._get_source_fast(environment, template)
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 85, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
+Exception on / [GET]
+Traceback (most recent call last):
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1988, in wsgi_app
+    response = self.full_dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1641, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1544, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "D:\Program Files\python\lib\site-packages\flask\_compat.py", line 33, in reraise
+    raise value
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1639, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "D:\Program Files\python\lib\site-packages\flask\app.py", line 1625, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "D:/worksapce/else/python/git-inspect/org/Main.py", line 12, in hello_world
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 133, in render_template
+    return _render(ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 851, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 812, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "D:\Program Files\python\lib\site-packages\jinja2\environment.py", line 774, in _load_template
+    cache_key = self.loader.get_source(self, name)[1]
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 57, in get_source
+    return self._get_source_fast(environment, template)
+  File "D:\Program Files\python\lib\site-packages\flask\templating.py", line 85, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: index.html
