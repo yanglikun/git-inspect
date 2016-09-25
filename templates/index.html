@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Git对象查看</title>
+    <script src="/static/jquery-1.6.4-min.js"></script>
+</head>
+<body>
+<input type="text" id="workingDir" value="D:\worksapce\git\git-test"><input type="button" value="获取数据" id="getData"><br/>
+
+<div id="data">
+
+</div>
+<script>
+    $("#getData").click(function () {
+        $.post("/getAllCommit", {workingDir: $("#workingDir").val()}, function (data) {
+            $("#data").html(JSON.stringify(data))
+        }, 'json');
+    })
+</script>
+</body>
+</html>
