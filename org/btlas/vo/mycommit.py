@@ -4,7 +4,6 @@ import jsonpickle
 
 class MyCommit:
     def __init__(self, hash):
-        super().__init__()
         self.tree = None
         self.hash = hash
         self.parents = []

@@ -89,7 +89,7 @@
 
 <script id="tree" type="text/html"  style="background-color: rgb(209,205,255)">
     <table class="commTable" style="background-color: rgb(209,205,255)">
-        <tr style="font-weight: bold "><td colspan="2">tree {{ name }}</td><td  title="{{ hash }}">{{ hash | shortHash }}</td></tr>
+        <tr style="font-weight: bold "><td colspan="2">tree ({{ name }})</td><td  title="{{ hash }}">{{ hash | shortHash }}</td></tr>
         {{ each blobs }}
         <tr><td>blob</td><td  title="{{ $value.hash }}">{{ $value.hash | shortHash }}</td><td>{{ $value.name }}</td></tr>
         {{ /each }}

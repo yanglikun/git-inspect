@@ -7,7 +7,6 @@ import os
 
 class IndexHelper:
     def __init__(self, workingDir):
-        super().__init__()
         self.workingDir = workingDir;
 
     def getIndex(self):

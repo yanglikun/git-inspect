@@ -3,7 +3,6 @@ __author__ = 'yanglikun'
 
 class MyBlob:
     def __init__(self, hash):
-        super().__init__()
         self.hash = hash
         self.name = ''
         self.content=''
