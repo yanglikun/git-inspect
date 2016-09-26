@@ -11,11 +11,6 @@
         template.helper('shortHash', function (hash) {
             return hash?hash.substr(0,4):"";
         });
-        $(function () {
-            $("#indexDivWrap").resizable();
-            $("#dbDivWrap").resizable();
-            $("#commitDiv").sortable();
-        });
     </script>
     <style>
         .commTable{
@@ -53,7 +48,7 @@
 
 <!--暂存区-->
 <div id="indexDivWrap" class="ui-widget-content">
-  <h3 class="ui-widget-header">暂存区</h3>
+  <h3 class="ui-widget-header" id="indexTipDom">暂存区</h3>
     <div id="indexDiv">
 
     </div>
@@ -61,7 +56,7 @@
 
 <!--对象区-->
 <div id="dbDivWrap" class="ui-widget-content">
-  <h3 class="ui-widget-header">对象库</h3>
+  <h3 class="ui-widget-header" id="objectTipDom">对象库</h3>
     <div id="dbDiv">
         <div id="commitDiv" style="height: 200px"></div>
         <div id="treeDiv" style="height: 200px"></div>
@@ -110,64 +105,6 @@
         <tr><td colspan="2">{{ content }}</td></tr>
     </table>
 </script>
-
-
-<script>
-    $("#allBtn").click(function(){
-        $("#indexBtn").trigger('click')
-        $("#categoryObjectsBtn").trigger('click')
-    })
-
-    $("#indexBtn").click(function () {
-        var $indexDiv=$("#indexDiv")
-        $indexDiv.html('正在加载...')
-        $.post("/index", {workingDir: $("#workingDir").val()}, function (data) {
-             $indexDiv.html('')
-            if(!data){
-                $indexDiv.html('暂存区没有内容')
-                return
-            }
-            for(indexEle in data){
-                var newIndex=template('index',data[indexEle]);
-                var $newIndex=$(newIndex)
-                $newIndex.draggable();
-                $indexDiv.append($newIndex)
-            }
-
-        }, 'json');
-    })
-
-    var $dbDiv=$("#dbDiv")
-    var $commitDiv=$("#commitDiv")
-    var $treeDiv=$("#treeDiv")
-    var $blobDiv=$("#blobDiv")
-    $("#categoryObjectsBtn").click(function () {
-        //$dbDiv.html('正在加载。。。')
-        $.post("/categoryObjects", {workingDir: $("#workingDir").val()}, function (data) {
-            //$dbDiv.html('')
-            $.each(data.commits, function (index, ele) {
-                var tmp = template('commit', ele);
-                var $tmp = $(tmp)
-                $tmp.draggable();
-                //$dbDiv.append($tmp)
-                $commitDiv.append($tmp)
-            })
-            $.each(data.trees, function (index, ele) {
-                var tmp = template('tree', ele);
-                var $tmp = $(tmp)
-                $tmp.draggable();
-                //$dbDiv.append($tmp)
-                $treeDiv.append($tmp)
-            })
-            $.each(data.blobs, function (index, ele) {
-                var tmp = template('blob', ele);
-                var $tmp = $(tmp)
-                $tmp.draggable();
-                //$dbDiv.append($tmp)
-                $blobDiv.append($tmp)
-            })
-        }, 'json');
-    })
-</script>
+<script src="/index.js"></script>
 </body>
 </html>
