@@ -1,6 +1,7 @@
 var $commitDiv = $("#commitDiv")
 var $treeDiv = $("#treeDiv")
 var $blobDiv = $("#blobDiv")
+var $indexDiv=$("#indexDiv")
 
 var $indexTipDom = $("#indexTipDom")
 var $objectTipDom = $("#objectTipDom")
@@ -35,6 +36,7 @@ $("#allBtn").click(function () {
 $("#indexBtn").click(function () {
     var $indexDiv = $("#indexDiv")
     indexTip.begin();
+    $indexDiv.empty()
     $.post("/index", {workingDir: $("#workingDir").val()}, function (data) {
         indexTip.end()
         if (!data) {
@@ -51,9 +53,9 @@ $("#indexBtn").click(function () {
 })
 
 $("#categoryObjectsBtn").click(function () {
-    $commitDiv.html('')
-    $treeDiv.html('')
-    $blobDiv.html('')
+    $commitDiv.empty()
+    $treeDiv.empty()
+    $blobDiv.empty()
     objectTip.begin()
     $.post("/categoryObjects", {workingDir: $("#workingDir").val()}, function (data) {
         objectTip.end()

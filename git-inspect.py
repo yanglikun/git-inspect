@@ -18,7 +18,7 @@ def allCommit():
 
 @app.route("/index", methods=["POST"])
 def index():
-    indexHelper = IndexHelper(r'D:\worksapce\git\git-test')
+    indexHelper = IndexHelper(request.form['workingDir'])
     return indexHelper.getIndexJSON()
 
 
