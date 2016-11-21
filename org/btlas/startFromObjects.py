@@ -60,7 +60,7 @@ def getCategoryObjects(workingDir):
     repo = Repo(workingDir)
     co = CategoryObjects();
 
-    allShaWithName = repo.git.execute('git rev-list --objects --all --indexed-objects');
+    allShaWithName = repo.git.execute('git rev-list --objects --all --indexed-objects',shell=True);
     allSha = [item.split(' ')[0] for item in allShaWithName.split('\n') if item]
     for shaStr in allSha:
         shaBin = hex_to_bin(shaStr);
