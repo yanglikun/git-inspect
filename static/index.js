@@ -1,7 +1,7 @@
 var $commitDiv = $("#commitDiv")
 var $treeDiv = $("#treeDiv")
 var $blobDiv = $("#blobDiv")
-var $indexDiv=$("#indexDiv")
+var $indexDiv = $("#indexDiv")
 
 var $indexTipDom = $("#indexTipDom")
 var $objectTipDom = $("#objectTipDom")
@@ -42,14 +42,19 @@ $("#indexBtn").click(function () {
         if (!data) {
             return
         }
+        if (data.suc===false) {
+            failHandler(data)
+            return
+        }
         for (indexEle in data) {
             var newIndex = template('index', data[indexEle]);
             var $newIndex = $(newIndex)
             $newIndex.draggable({opacity: 0.35})
             $indexDiv.append($newIndex)
         }
-
-    }, 'json');
+    }, 'json').fail(function(){
+        exceptionHandler()
+    })
 })
 
 $("#categoryObjectsBtn").click(function () {
@@ -59,6 +64,10 @@ $("#categoryObjectsBtn").click(function () {
     objectTip.begin()
     $.post("/categoryObjects", {workingDir: $("#workingDir").val()}, function (data) {
         objectTip.end()
+        if (data.suc === false) {
+            failHandler(data)
+            return
+        }
         $.each(data.commits, function (index, ele) {
             var tmp = template('commit', ele);
             var $tmp = $(tmp)
@@ -67,14 +76,24 @@ $("#categoryObjectsBtn").click(function () {
         $.each(data.trees, function (index, ele) {
             var tmp = template('tree', ele);
             var $tmp = $(tmp)
-            $tmp.draggable({cursor: "move",opacity: 0.35});
+            $tmp.draggable({cursor: "move", opacity: 0.35});
             $treeDiv.append($tmp)
         })
         $.each(data.blobs, function (index, ele) {
             var tmp = template('blob', ele);
             var $tmp = $(tmp)
-            $tmp.draggable({cursor: "move",opacity: 0.35});
+            $tmp.draggable({cursor: "move", opacity: 0.35});
             $blobDiv.append($tmp)
         })
-    }, 'json');
+    }, 'json').fail(function(){
+        exceptionHandler()
+    })
 })
+
+var exceptionHandler = function (data) {
+    $("#dialog").html('<p>系统异常</p>').dialog();
+}
+var failHandler = function (data) {
+    var errMsg = data.msg ? data.msg : "系统异常"
+    $("#dialog").html('<p>' + errMsg + '</p>').dialog();
+}
